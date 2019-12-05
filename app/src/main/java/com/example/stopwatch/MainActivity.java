@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,7 +16,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSeconds(0);
+        int seconds = (savedInstanceState != null) ? savedInstanceState.getInt("seconds") : 0;
+        setSeconds(seconds);
+        if (seconds != 0) {
+            timer.start();
+            Button button = (Button)findViewById(R.id.button);
+            button.setEnabled(false);
+
+        }
     }
 
     public void setSeconds(int value) {
@@ -38,14 +46,21 @@ public class MainActivity extends AppCompatActivity {
     public void onClickStart(View view){
      //   Log.d("MOLODEZ", "KRASAVA");
         timer.start();
+        Button button = (Button)findViewById(R.id.button);
+        button.setEnabled(false);
 
     }
     public void onClickStop(View view){
         timer.cancel();
+        Button button = (Button)findViewById(R.id.button);
+        button.setEnabled(true);
+
     }
     public void onClickReset(View view){
         timer.cancel();
         setSeconds(0);
+        Button button = (Button)findViewById(R.id.button);
+        button.setEnabled(true );
     }
 
     public void updateTimeView(){
@@ -57,5 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView timeView = (TextView) findViewById(R.id.time);
         timeView.setText(timeString);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("seconds",seconds);
+
     }
 }
