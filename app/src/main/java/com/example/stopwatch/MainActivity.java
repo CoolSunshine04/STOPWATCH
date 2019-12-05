@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setSeconds(seconds);
         if (seconds != 0) {
             timer.start();
-            Button button = (Button)findViewById(R.id.button);
+            Button button = (Button) findViewById(R.id.button);
             button.setEnabled(false);
 
         }
@@ -35,39 +35,42 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer timer = new CountDownTimer(Long.MAX_VALUE, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-        setSeconds(++seconds);
+            setSeconds(++seconds);
         }
 
         @Override
         public void onFinish() {
 
         }
-        };
-    public void onClickStart(View view){
-     //   Log.d("MOLODEZ", "KRASAVA");
+    };
+
+    public void onClickStart(View view) {
+        //   Log.d("MOLODEZ", "KRASAVA");
         timer.start();
-        Button button = (Button)findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.button);
         button.setEnabled(false);
 
     }
-    public void onClickStop(View view){
+
+    public void onClickStop(View view) {
         timer.cancel();
-        Button button = (Button)findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.button);
         button.setEnabled(true);
 
     }
-    public void onClickReset(View view){
+
+    public void onClickReset(View view) {
         timer.cancel();
         setSeconds(0);
-        Button button = (Button)findViewById(R.id.button);
-        button.setEnabled(true );
+        Button button = (Button) findViewById(R.id.button);
+        button.setEnabled(true);
     }
 
-    public void updateTimeView(){
-        int ss = seconds%60;
-        int minutes = seconds/60;
-        int mm = minutes%60;
-        int hours = minutes/60;
+    public void updateTimeView() {
+        int ss = seconds % 60;
+        int minutes = seconds / 60;
+        int mm = minutes % 60;
+        int hours = minutes / 60;
         String timeString = String.format("%02d:%02d:%02d", hours, mm, ss);
 
         TextView timeView = (TextView) findViewById(R.id.time);
@@ -77,7 +80,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("seconds",seconds);
+        outState.putInt("seconds", seconds);
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(seconds!=0){
+            timer.start();
+        }
+    }
 }
+
+
+
